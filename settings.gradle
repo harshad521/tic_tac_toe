@@ -1,0 +1,4 @@
+rootProject.name = 'ticTacToe'
+include 'application'
+include 'library'
+
