@@ -2,19 +2,17 @@ package com.thoughtworks.ticTacToeLib;
 
 public class Field {
 
-    private final char owner;
-    private final int id;
+    private Symbol owner = Symbol.NONE;
 
-    public Field(char owner, int id) {
-        this.owner = owner;
-        this.id = id;
-    }
-
-    public char getCoinOwner() {
+    public Symbol getFieldOwner() {
         return owner;
     }
 
-    public int getId() {
-        return id;
+    public void setOwner(Symbol owner) {
+        this.owner = owner;
+    }
+
+    public enum Symbol {
+        X, O, NONE
     }
 }
