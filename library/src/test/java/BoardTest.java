@@ -103,6 +103,34 @@ public class BoardTest {
         board.setOwner( 1,0, Field.Symbol.O );
         board.setOwner( 2,0, Field.Symbol.X );
         assertThat(board.getWinner(),is(Field.Symbol.NONE));
+    }
 
+    @Test
+    public void checkStateOfGame_Play() throws InvalidMoveException {
+        board.setOwner( 0,2, Field.Symbol.X );
+        board.setOwner( 1,1, Field.Symbol.X );
+        assertThat( board.getGameStatus(),is(Board.Status.PLAY) );
+    }
+
+    @Test
+    public void checkStateOfGame_End() throws InvalidMoveException{
+        board.setOwner( 0,2, Field.Symbol.X );
+        board.setOwner( 0,1, Field.Symbol.X );
+        board.setOwner( 0,0, Field.Symbol.X );
+        assertThat( board.getGameStatus(),is(Board.Status.END) );
+    }
+
+    @Test
+    public void checkStateOfGame_Draw() throws InvalidMoveException{
+        board.setOwner( 0,0, Field.Symbol.X );
+        board.setOwner( 0,1, Field.Symbol.O );
+        board.setOwner( 0,2, Field.Symbol.X );
+        board.setOwner( 1,0, Field.Symbol.O );
+        board.setOwner( 1,1, Field.Symbol.X );
+        board.setOwner( 1,2, Field.Symbol.O );
+        board.setOwner( 2,0, Field.Symbol.O );
+        board.setOwner( 2,1, Field.Symbol.X );
+        board.setOwner( 2,2, Field.Symbol.O );
+        assertThat( board.getGameStatus(),is(Board.Status.DRAW) );
     }
 }

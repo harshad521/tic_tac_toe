@@ -2,6 +2,7 @@ package com.thoughtworks.ticTacToeLib;
 
 public class Board {
     private Field[][] fields;
+    private Status gameStatus = Status.PLAY;
     private int size;
     private int score=0;
     private Field.Symbol winner = Field.Symbol.NONE;
@@ -27,6 +28,7 @@ public class Board {
         validateMove( row, column );
         fields[row][column].setOwner(owner);
         evaluateBoard(owner);
+        verifyDrawCondition();
     }
 
     private void validateMove(int row,int column) throws InvalidMoveException {
@@ -45,15 +47,12 @@ public class Board {
         }
     }
 
-
     private void evaluateBoard(Field.Symbol player){
         for (int counter = 0; counter < 4; counter++) {
-            if(this.winner!=Field.Symbol.NONE){
+            if(this.gameStatus != Status.PLAY){
                 break;
             }
-            score=0;
             for (int row = 0; row < size; row++) {
-
                 for (int column = 0; column < size; column++) {
                     if(counter == 0) {
                         evaluateFields( player, row, column );
@@ -66,15 +65,40 @@ public class Board {
                         evaluateFields( player,column,(size-1)-column );
                         row=size;
                     }
-                    if(score==size){
-                        this.winner=player;
-                        break;
-                    }
-                }
 
+                }
+                if(score==size && this.winner == Field.Symbol.NONE){
+                    this.winner=player;
+                    this.gameStatus=Status.END;
+                    break;
+                }
+                score=0;
             }
         }
     }
 
+    public Status getGameStatus() {
+        return gameStatus;
+    }
+
+    public enum Status{
+        PLAY,END,DRAW
+    }
+
+    private void verifyDrawCondition(){
+        int counter=0;
+        for (int row=0;row<size;row++){
+            for (int column = 0; column < size; column++) {
+                if(fields[row][column].getFieldOwner()== Field.Symbol.NONE){
+                    counter--;
+                }else{
+                    counter++;
+                }
+            }
+        }
+        if(counter==9 && winner==Field.Symbol.NONE){
+            this.gameStatus = Status.DRAW;
+        }
+    }
 }
 
