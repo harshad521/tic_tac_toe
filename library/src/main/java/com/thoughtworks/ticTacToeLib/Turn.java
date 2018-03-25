@@ -9,10 +9,10 @@ public class Turn {
     }
 
     public Field.Symbol getCurrentPlayer() {
-        return players[currentPlayerIndex%2];
+        return players[currentPlayerIndex];
     }
 
     public void changeTurn() {
-        currentPlayerIndex++;
+        currentPlayerIndex = 1- currentPlayerIndex;
     }
 }
